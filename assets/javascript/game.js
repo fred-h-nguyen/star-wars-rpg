@@ -242,6 +242,7 @@ $(document).ready(function () {
             defenderHP = obi.hp;
             isAlive = obi;
             $('#noenemy').hide();
+            $('#victory').hide();
         }
     })
 
@@ -255,6 +256,7 @@ $(document).ready(function () {
             defenderHP = sidious.hp;
             isAlive = sidious;
             $('#noenemy').hide();
+            $('#victory').hide();
         }
     })
 
@@ -268,6 +270,7 @@ $(document).ready(function () {
             defenderHP = maul.hp;
             isAlive = maul;
             $('#noenemy').hide();
+            $('#victory').hide();
         }
     })
 
@@ -281,6 +284,7 @@ $(document).ready(function () {
             defenderHP = luke.hp;
             isAlive = luke;
             $('#noenemy').hide();
+            $('#victory').hide();
         }
     })
 
@@ -290,12 +294,16 @@ $(document).ready(function () {
             return;
         } else {
             if (obi.isDefending || luke.isDefending || maul.isDefending || sidious.isDefending) {
+               
+               if(defenderHP>0){ 
                 yourTotalAtk = yourTotalAtk + yourBaseAtk;
                 defenderHP = defenderHP - yourTotalAtk;
+                isAlive.hpElem.html(defenderHP);}
+                if(yourHP>0){
                 yourHP = yourHP - defenderAtk;
-                isAlive.hpElem.html(defenderHP);
+                
                 champ.hpElem.html(yourHP);
-
+                }
                 if (defenderHP <= 0) {
                     isAlive.isDead = true;
                     isAlive.isDefending = false;
@@ -303,10 +311,7 @@ $(document).ready(function () {
                     $('#victory').show();
                     $('.enemy').html(isAlive.name);
                 }
-            } else {
-                $('#noenemy').show();
-            };
-            if (yourHP <= 0) {
+                if (yourHP <= 0) {
                 $('#gameover').show();
                 $('#message').html('You Lose !!!!');
                 $('#restartbtn').show();
@@ -316,8 +321,13 @@ $(document).ready(function () {
                 $('#gameover').show();
                 $('#message').html('You Won !!!!');
                 $('#restartbtn').show();
+                $('#victory').hide();
                 lost = true;
             };
+            } else {
+                $('#noenemy').show();
+            };
+            
         };
     });
 
