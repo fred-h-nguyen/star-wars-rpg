@@ -243,6 +243,7 @@ $(document).ready(function () {
             isAlive = obi;
             $('#noenemy').hide();
             $('#victory').hide();
+            $('.combat').hide();
         }
     })
 
@@ -257,6 +258,7 @@ $(document).ready(function () {
             isAlive = sidious;
             $('#noenemy').hide();
             $('#victory').hide();
+            $('.combat').hide();
         }
     })
 
@@ -271,6 +273,7 @@ $(document).ready(function () {
             isAlive = maul;
             $('#noenemy').hide();
             $('#victory').hide();
+            $('.combat').hide();
         }
     })
 
@@ -285,6 +288,7 @@ $(document).ready(function () {
             isAlive = luke;
             $('#noenemy').hide();
             $('#victory').hide();
+            $('.combat').hide();
         }
     })
 
@@ -294,41 +298,46 @@ $(document).ready(function () {
             return;
         } else {
             if (obi.isDefending || luke.isDefending || maul.isDefending || sidious.isDefending) {
-               
-               if(defenderHP>0){ 
+
                 yourTotalAtk = yourTotalAtk + yourBaseAtk;
                 defenderHP = defenderHP - yourTotalAtk;
-                isAlive.hpElem.html(defenderHP);}
-                if(yourHP>0){
+                isAlive.hpElem.html(defenderHP);
                 yourHP = yourHP - defenderAtk;
-                
                 champ.hpElem.html(yourHP);
-                }
+                $('.combat').show();
+                $('.enemy').html(isAlive.name);
+                $('#yourdmg').html(yourTotalAtk);
+                $('#enemydmg').html(defenderAtk);
+
                 if (defenderHP <= 0) {
                     isAlive.isDead = true;
                     isAlive.isDefending = false;
                     kill.call(isAlive);
                     $('#victory').show();
                     $('.enemy').html(isAlive.name);
+
                 }
                 if (yourHP <= 0) {
-                $('#gameover').show();
-                $('#message').html('You Lose !!!!');
-                $('#restartbtn').show();
-                lost = true;
-            }
-            if (obi.isDead && maul.isDead && luke.isDead && sidious.isDead) {
-                $('#gameover').show();
-                $('#message').html('You Won !!!!');
-                $('#restartbtn').show();
-                $('#victory').hide();
-                lost = true;
-            };
-            } else {
+                    $('#gameover').show();
+                    $('#message').html('You Lose !!!!');
+                    $('#restartbtn').show();
+                    $('#victory').hide();
+                    $('.combat').hide();
+                    lost = true;
+                }
+                if (obi.isDead && maul.isDead && luke.isDead && sidious.isDead) {
+                    $('#gameover').show();
+                    $('#message').html('You Won !!!!');
+                    $('#restartbtn').show();
+                    $('#victory').hide();
+                    $('.combat').hide();
+                    lost = true;
+                }
+            }else {
                 $('#noenemy').show();
-            };
-            
-        };
+            }
+        }
+
     });
 
     $('#restartbtn').on('click', function () {
