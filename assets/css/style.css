@@ -67,3 +67,10 @@ button{
 p{
     margin-bottom:5px;
 }
+
+#obi2, #obi3, #obi4,
+#luke2, #luke3, #luke4, 
+#sid2, #sid3, #sid4,
+#maul2, #maul3, #maul4{
+    display: none;
+}
