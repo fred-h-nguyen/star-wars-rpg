@@ -25,6 +25,20 @@ $(document).ready(function () {
         }
     }
 
+    function kill() {
+        if (this.isDead) {
+            this.boxElem4.hide();
+        }
+    }
+
+    var yourBaseAtk = 0;
+    var yourTotalAtk = 0;
+    var defenderAtk = 0;
+    var yourHP = 0;
+    var defenderHP = 0;
+    var isAlive = Object;
+    var lost = false;
+
     var obi = {
         name: "Obi-Wan Kenobi",
         isYourChar: false,
@@ -78,29 +92,34 @@ $(document).ready(function () {
         boxElem4: $('#maul4')
     };
     function start() {
+        lost = false;
+        totalKilled = 0;
+        yourHP = 0;
+        yourBaseAtk = 0;
+        yourTotalAtk = 0;
+        defenderAtk = 0;
+        defenderhp = 0;
+        isAlive = Object;
+
         obi.isYourChar = false;
         obi.isYourEnemy = false;
         obi.isDefending = false;
         obi.isDead = false;
-        obi.hp = 120;
 
         luke.isYourChar = false;
         luke.isYourEnemy = false;
         luke.isDefending = false;
         luke.isDead = false;
-        luke.hp = 100;
 
         sidious.isYourChar = false;
         sidious.isYourEnemy = false;
         sidious.isDefending = false;
         sidious.isDead = false;
-        sidious.hp = 150;
 
         maul.isYourChar = false;
         maul.isYourEnemy = false;
         maul.isDefending = false;
         maul.isDead = false;
-        maul.hp = 180;
 
         yourChar.call(obi);
         yourChar.call(luke);
@@ -116,12 +135,24 @@ $(document).ready(function () {
         defender.call(luke);
         defender.call(sidious);
         defender.call(maul);
+
+        obi.boxElem1.show();
+        luke.boxElem1.show();
+        sidious.boxElem1.show();
+        maul.boxElem1.show();
+
+        $('#noenemy').hide();
+        $('.combat').hide();
+        $('#gameover').hide();
+        $('#victory').hide();
+        $('#restartbtn').hide();
     }
 
     start();
 
     obi.boxElem1.on('click', function () {
         obi.isYourChar = true;
+        obi.isDead = true;
         luke.isYourEnemy = true;
         sidious.isYourEnemy = true;
         maul.isYourEnemy = true;
@@ -133,10 +164,13 @@ $(document).ready(function () {
         yourEnemy.call(luke);
         yourEnemy.call(sidious);
         yourEnemy.call(maul);
+        yourBaseAtk = obi.baseatk;
+        yourHP = obi.hp;
     })
 
     luke.boxElem1.on('click', function () {
         luke.isYourChar = true;
+        luke.isDead = true;
         obi.isYourEnemy = true;
         sidious.isYourEnemy = true;
         maul.isYourEnemy = true;
@@ -148,10 +182,13 @@ $(document).ready(function () {
         yourEnemy.call(obi);
         yourEnemy.call(sidious);
         yourEnemy.call(maul);
+        yourBaseAtk = luke.baseatk;
+        yourHP = luke.hp;
     })
 
     sidious.boxElem1.on('click', function () {
         sidious.isYourChar = true;
+        sidious.isDead = true;
         luke.isYourEnemy = true;
         obi.isYourEnemy = true;
         maul.isYourEnemy = true;
@@ -163,10 +200,13 @@ $(document).ready(function () {
         yourEnemy.call(luke);
         yourEnemy.call(obi);
         yourEnemy.call(maul);
+        yourBaseAtk = sidious.baseatk;
+        yourHP = sidious.hp;
     })
 
     maul.boxElem1.on('click', function () {
         maul.isYourChar = true;
+        maul.isDead = true;
         luke.isYourEnemy = true;
         sidious.isYourEnemy = true;
         obi.isYourEnemy = true;
@@ -178,6 +218,8 @@ $(document).ready(function () {
         yourEnemy.call(luke);
         yourEnemy.call(sidious);
         yourEnemy.call(obi);
+        yourBaseAtk = maul.baseatk;
+        yourHP = maul.hp;
     })
 
     obi.boxElem3.on('click', function () {
@@ -186,41 +228,93 @@ $(document).ready(function () {
             obi.isYourEnemy = false;
             yourEnemy.call(obi);
             defender.call(obi);
+            defenderAtk = obi.baseatk;
+            defenderHP = obi.hp;
+            isAlive = obi;
+            $('#noenemy').hide();
         }
     })
 
     sidious.boxElem3.on('click', function () {
         if (maul.isDefending === false && obi.isDefending === false && luke.isDefending === false) {
-        sidious.isDefending = true;
-        sidious.isYourEnemy = false;
-        yourEnemy.call(sidious);
-        defender.call(sidious);
+            sidious.isDefending = true;
+            sidious.isYourEnemy = false;
+            yourEnemy.call(sidious);
+            defender.call(sidious);
+            defenderAtk = sidious.baseatk;
+            defenderHP = sidious.hp;
+            isAlive = sidious;
+            $('#noenemy').hide();
         }
     })
 
     maul.boxElem3.on('click', function () {
         if (obi.isDefending === false && sidious.isDefending === false && luke.isDefending === false) {
-        maul.isDefending = true;
-        maul.isYourEnemy = false;
-        yourEnemy.call(maul);
-        defender.call(maul);
+            maul.isDefending = true;
+            maul.isYourEnemy = false;
+            yourEnemy.call(maul);
+            defender.call(maul);
+            defenderAtk = maul.baseatk;
+            defenderHP = maul.hp;
+            isAlive = maul;
+            $('#noenemy').hide();
         }
     })
 
     luke.boxElem3.on('click', function () {
         if (maul.isDefending === false && sidious.isDefending === false && obi.isDefending === false) {
-        luke.isDefending = true;
-        luke.isYourEnemy = false;
-        yourEnemy.call(luke);
-        defender.call(luke);
+            luke.isDefending = true;
+            luke.isYourEnemy = false;
+            yourEnemy.call(luke);
+            defender.call(luke);
+            defenderAtk = luke.baseatk;
+            defenderHP = luke.hp;
+            isAlive = luke;
+            $('#noenemy').hide();
         }
+    })
+
+    $('#fightbtn').on('click', function () {
+
+        if (lost) {
+            return;
+        } else {
+            if (obi.isDefending || luke.isDefending || maul.isDefending || sidious.isDefending) {
+                yourTotalAtk = yourTotalAtk + yourBaseAtk;
+                defenderHP = defenderHP - yourTotalAtk;
+                yourHP = yourHP - defenderAtk;
+                if (defenderHP <= 0) {
+                    isAlive.isDead = true;
+                    isAlive.isDefending = false;
+                    kill.call(isAlive);
+                    $('#victory').show();
+                    $('.enemy').html(isAlive.name);
+                }
+            } else {
+                $('#noenemy').show();
+            };
+            if (yourHP <= 0) {
+                $('#gameover').show();
+                $('#message').html('You Lose !!!!');
+                $('#restartbtn').show();
+                lost = true;
+            }
+            if (obi.isDead && maul.isDead && luke.isDead && sidious.isDead) {
+                $('#gameover').show();
+                $('#message').html('You Won !!!!');
+                $('#restartbtn').show();
+                lost = true;
+            };
+        };
+    });
+
+    $('#restartbtn').on('click', function () {
+        start();
     })
 
 
 
-    //hide all images in certain divs
-    //maybe use an array?
-    //or an object
+
     // hide all messages
     //on click of first image hide all images and only reveal image clicked under your character the rest under enemies available to attack
     //on click remove character click and reveal character under defender
