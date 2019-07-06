@@ -35,6 +35,7 @@ $(document).ready(function () {
     var yourTotalAtk = 0;
     var defenderAtk = 0;
     var yourHP = 0;
+    var champ = Object;
     var defenderHP = 0;
     var isAlive = Object;
     var lost = false;
@@ -50,7 +51,8 @@ $(document).ready(function () {
         boxElem1: $('#obi1'),
         boxElem2: $('#obi2'),
         boxElem3: $('#obi3'),
-        boxElem4: $('#obi4')
+        boxElem4: $('#obi4'),
+        hpElem: $('.obi'),
     };
     var luke = {
         name: "Luke Skywalker",
@@ -63,7 +65,8 @@ $(document).ready(function () {
         boxElem1: $('#luke1'),
         boxElem2: $('#luke2'),
         boxElem3: $('#luke3'),
-        boxElem4: $('#luke4')
+        boxElem4: $('#luke4'),
+        hpElem: $('.luke')
     };
     var sidious = {
         name: "Darth Sidious",
@@ -76,7 +79,8 @@ $(document).ready(function () {
         boxElem1: $('#sid1'),
         boxElem2: $('#sid2'),
         boxElem3: $('#sid3'),
-        boxElem4: $('#sid4')
+        boxElem4: $('#sid4'),
+        hpElem: $('.sidious')
     };
     var maul = {
         Name: "Darth Maul",
@@ -89,7 +93,9 @@ $(document).ready(function () {
         boxElem1: $('#maul1'),
         boxElem2: $('#maul2'),
         boxElem3: $('#maul3'),
-        boxElem4: $('#maul4')
+        boxElem4: $('#maul4'),
+        hpElem: $('.maul')
+
     };
     function start() {
         lost = false;
@@ -166,6 +172,7 @@ $(document).ready(function () {
         yourEnemy.call(maul);
         yourBaseAtk = obi.baseatk;
         yourHP = obi.hp;
+        champ = obi;
     })
 
     luke.boxElem1.on('click', function () {
@@ -184,6 +191,7 @@ $(document).ready(function () {
         yourEnemy.call(maul);
         yourBaseAtk = luke.baseatk;
         yourHP = luke.hp;
+        champ = luke;
     })
 
     sidious.boxElem1.on('click', function () {
@@ -202,6 +210,7 @@ $(document).ready(function () {
         yourEnemy.call(maul);
         yourBaseAtk = sidious.baseatk;
         yourHP = sidious.hp;
+        champ = sidious;
     })
 
     maul.boxElem1.on('click', function () {
@@ -220,6 +229,7 @@ $(document).ready(function () {
         yourEnemy.call(obi);
         yourBaseAtk = maul.baseatk;
         yourHP = maul.hp;
+        champ = maul;
     })
 
     obi.boxElem3.on('click', function () {
@@ -283,6 +293,9 @@ $(document).ready(function () {
                 yourTotalAtk = yourTotalAtk + yourBaseAtk;
                 defenderHP = defenderHP - yourTotalAtk;
                 yourHP = yourHP - defenderAtk;
+                isAlive.hpElem.html(defenderHP);
+                champ.hpElem.html(yourHP);
+
                 if (defenderHP <= 0) {
                     isAlive.isDead = true;
                     isAlive.isDefending = false;
